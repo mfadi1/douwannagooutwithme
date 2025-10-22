@@ -119,11 +119,12 @@
 
         .buttons {
             display: flex;
-            gap: 20px;
+            gap: 30px;
             justify-content: center;
             align-items: center;
             margin-top: 30px;
             min-height: 80px;
+            flex-wrap: wrap;
         }
 
         button {
@@ -151,9 +152,6 @@
         #noButton {
             background: white;
             color: #ff69b4;
-            position: absolute;
-            left: 50%;
-            transform: translateX(50%);
         }
 
         #noButton:hover {
@@ -244,32 +242,36 @@
         const noButton = document.getElementById('noButton');
         const yesButton = document.getElementById('yesButton');
         let noButtonSize = 1;
+        const minSize = 0.5; // Minimum size for No button
 
         function moveButton() {
-            const container = document.querySelector('.container');
-            const containerRect = container.getBoundingClientRect();
+            // Get button dimensions
+            const buttonWidth = noButton.offsetWidth * noButtonSize;
+            const buttonHeight = noButton.offsetHeight * noButtonSize;
             
-            const maxX = window.innerWidth - noButton.offsetWidth - 40;
-            const maxY = window.innerHeight - noButton.offsetHeight - 40;
+            // Calculate safe boundaries with padding
+            const padding = 20;
+            const maxX = window.innerWidth - buttonWidth - padding;
+            const maxY = window.innerHeight - buttonHeight - padding;
             
-            const x = Math.random() * maxX;
-            const y = Math.random() * maxY;
+            // Generate random position within safe boundaries
+            const x = Math.max(padding, Math.random() * maxX);
+            const y = Math.max(padding, Math.random() * maxY);
             
             noButton.style.position = 'fixed';
             noButton.style.left = x + 'px';
             noButton.style.top = y + 'px';
             
-            // Shrink the No button
-            noButtonSize *= 0.9;
+            // Shrink the No button but not below minimum
+            if (noButtonSize > minSize) {
+                noButtonSize *= 0.85;
+                if (noButtonSize < minSize) noButtonSize = minSize;
+            }
             noButton.style.transform = `scale(${noButtonSize})`;
             
             // Grow the Yes button
-            const yesScale = 1 + (1 - noButtonSize) * 0.5;
+            const yesScale = 1 + (1 - noButtonSize) * 0.8;
             yesButton.style.transform = `scale(${yesScale})`;
-            
-            if (noButtonSize < 0.4) {
-                noButton.style.display = 'none';
-            }
         }
 
         noButton.addEventListener('mouseover', moveButton);
