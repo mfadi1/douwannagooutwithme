@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do you wanna go out with me? 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating hearts animation */
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            animation: float 6s infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.2);
+            max-width: 500px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .success-container {
+            animation: bounceIn 0.6s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ff69b4;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.1);
+        }
+
+        .emoji {
+            font-size: 120px;
+            margin: 20px 0;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .success-emoji {
+            animation: spin 1s ease-in-out;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg) scale(0);
+            }
+            50% {
+                transform: rotate(180deg) scale(1.2);
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+            }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+            position: relative;
+        }
+
+        button {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #yesButton {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fb3 100%);
+            color: white;
+        }
+
+        #yesButton:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 25px rgba(255, 105, 180, 0.4);
+        }
+
+        #noButton {
+            background: white;
+            color: #ff69b4;
+            position: absolute;
+            left: 50%;
+            transform: translateX(50%);
+        }
+
+        #noButton:hover {
+            background: #ffe0f0;
+        }
+
+        .success-message {
+            font-size: 3rem;
+            color: #ff69b4;
+            font-weight: 700;
+            margin-bottom: 20px;
+            animation: bounceIn 0.8s ease-out;
+        }
+
+        .sub-message {
+            font-size: 1.3rem;
+            color: #ff8fb3;
+            margin-top: 20px;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .emoji {
+                font-size: 80px;
+            }
+
+            button {
+                font-size: 1rem;
+                padding: 12px 30px;
+            }
+
+            .success-message {
+                font-size: 2rem;
+            }
+
+            .sub-message {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <h1>Do you wanna go out with me?</h1>
+        <div class="emoji">🥺</div>
+        <div class="buttons">
+            <button id="yesButton">Yes! 💕</button>
+            <button id="noButton">No</button>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💗';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDelay = Math.random() * 3 + 's';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 6000);
+        }
+
+        setInterval(createHeart, 500);
+
+        const noButton = document.getElementById('noButton');
+        const yesButton = document.getElementById('yesButton');
+        let noButtonSize = 1;
+
+        function moveButton() {
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+            
+            const maxX = window.innerWidth - noButton.offsetWidth - 40;
+            const maxY = window.innerHeight - noButton.offsetHeight - 40;
+            
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+            
+            noButton.style.position = 'fixed';
+            noButton.style.left = x + 'px';
+            noButton.style.top = y + 'px';
+            
+            // Shrink the No button
+            noButtonSize *= 0.9;
+            noButton.style.transform = `scale(${noButtonSize})`;
+            
+            // Grow the Yes button
+            const yesScale = 1 + (1 - noButtonSize) * 0.5;
+            yesButton.style.transform = `scale(${yesScale})`;
+            
+            if (noButtonSize < 0.4) {
+                noButton.style.display = 'none';
+            }
+        }
+
+        noButton.addEventListener('mouseover', moveButton);
+        noButton.addEventListener('click', moveButton);
+
+        yesButton.addEventListener('click', function() {
+            const container = document.getElementById('mainContainer');
+            container.innerHTML = `
+                <div class="success-container">
+                    <div class="success-message">Yaaaay! 🎉</div>
+                    <div class="emoji success-emoji">🥰</div>
+                    <div class="sub-message">I'm so excited! 💖</div>
+                </div>
+            `;
+            
+            // Create celebration hearts
+            for (let i = 0; i < 20; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+        });
+    </script>
+</body>
+</html>
